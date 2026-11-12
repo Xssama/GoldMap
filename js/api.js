@@ -32,14 +32,11 @@ async function GetMetalHistory(symbol, range, interval) {
     }
 
     const goldHistory = await HistoryRes.json()
-    console.log(goldHistory);
+
     
     const spotData = await SpotRes.json()
     const fxrate = spotData.fx_rate
-    console.log('fx_rate: ', fxrate);
-    
-    console.log(goldHistory.points);
-    
+
     const data = []
     goldHistory.points.forEach(function(DayData){
         data.push({dayDate: new Date(DayData.t * 1000).toISOString().slice(0, 10), ClosePrice: (DayData.c * fxrate) / 31.1034768}) 
