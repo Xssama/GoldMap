@@ -44,14 +44,14 @@
                     <option value="EUR">EUR</option>
                 </select>
             </div>
-            <div id="metals-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+            <div id="metals-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
 
             </div>
         </section>
         <section class="border-t p-2">
             <h2 class="text-2xl text-text">Historique des prix</h2>
             <div class="flex justify-between">
-                <select name="currency" id="select-currency" class="border text-lg rounded-2xl px-3 py-1 mt-1">
+                <select name="currency" id="select-metal" class="border text-lg rounded-2xl px-3 py-1 mt-1">
                     <option value="gold">Or</option>
                     <option value="silver">Argent</option>
                 </select>
@@ -78,12 +78,19 @@
             </div>
         </section>
 
-        <template id="metals-template" class="bg-surface border border-border rounded-xl p-4">
-            <h3 id="metal-name" class="text-2xl"></h3>
-            <p id="metal-price" class="text-3xl"></p>
-            <p id="metal-unit" class="text-xl"></p>
-            <p id="metal-change" class="text-lg"></p>
+        <template id="metals-template">
+           <article class="bg-gray-300 border border-border rounded-xl p-4">
+                <h3 id="metal-name" class="text-2xl"></h3>
+                <p class="text-3xl">
+                    <span id="metal-price"></span>
+                    <span id="metal-currency"></span>
+                    / 
+                    <span id="metal-unit" ></span></p>
+                    
+                <p class="text-xl"></p>
+                <p id="metal-change" class="text-lg"></p>
 
+           </article>
         </template>
     </main>
     <footer class="border-t flex justify-between px-2 py-4">
