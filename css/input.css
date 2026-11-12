@@ -11,3 +11,11 @@
     --color-success: #27845B;
     --color-danger: #C64C4C;
 }
+
+.loading {
+    color: var(--color-primary) 
+}
+
+.error {
+    color: red
+}
