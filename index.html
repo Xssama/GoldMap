@@ -39,10 +39,13 @@
             <div class="flex justify-between px-2">
                 <p class="text-xl text-bold">Prix Actuels</p>
                 <select name="currency" id="select-currency" class="border text-lg rounded-2xl px-3 py-1">
-                    <option value="mad">MAD</option>
-                    <option value="usd">USD</option>
+                    <option value="MAD">MAD</option>
+                    <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                 </select>
+            </div>
+            <div class="text-center">
+                <p id="cards-status" class="text-2xl"></p>
             </div>
             <div id="metals-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
 
@@ -89,7 +92,8 @@
                     
                 <p class="text-xl"></p>
                 <p id="metal-change" class="text-lg"></p>
-
+                <p id="metal-change-rate" class="text-lg"></p>
+                
            </article>
         </template>
     </main>
