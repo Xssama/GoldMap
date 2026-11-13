@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mizan</title>
+    <script type="module" src="./js/app.js" defer></script>
+    <link rel="stylesheet" href="./css/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> 
+</head>
+<body>
+    <header class="flex flex-row justify-between py-2 px-6">
+        <div class="flex gap-3 ">
+            <div>
+             <img src="./src/icons/Gold Scales and Bullion Icon.ico" alt="Gold Scales and Bullion Icon" class="h-16">
+            </div>
+            <div>
+                <p class="text-primary text-2xl font-semibold">MIZAN</p>
+                <p class="text-muted">Bijoutrie Al Andalous</p>
+            </div>
+        </div>
+        <p class="text-green-500 text-center border rounded-2xl bg-green-100 h-2/3 px-4 py-1">En ligne</p>
+    </header>
+    <hr class="px-10">
+    <main>
+        
+        <section class="flex justify-between px-4 py-2">
+            <div class="flex flex-col gap-2">
+                <p class="text-xl text-text font-bold">Cours des métaux</p>
+                <p class="text-xl text-muted ">dernièr mes à jour: <span id="last-update-time"></span></p>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <time id="current-date" datetime="" class="block text-xl text-muted">Mardi 10 Nevombre 2026</time>
+                <button id="refresh" class="text-text text-xl text-center border-2 rounded-2xl px-2 w-4/5 hover:bg-gray-500 focus:shadow-2xl"><i class="fa-solid fa-arrows-rotate"></i> Actualiser</button>
+            </div>
+        </section>
+        <hr>
+        <section class="py-4">
+            <div class="flex justify-between px-2">
+                <p class="text-xl text-bold">Prix Actuels</p>
+                <select name="currency" id="select-currency" class="border text-lg rounded-2xl px-3 py-1">
+                    <option value="MAD">MAD</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                </select>
+            </div>
+            <div class="text-center">
+                <p id="cards-status" class="text-2xl"></p>
+            </div>
+            <div id="metals-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+
+            </div>
+        </section>
+        <section class="border-t p-2">
+            <h2 class="text-2xl text-text">Historique des prix</h2>
+            <div class="flex justify-between">
+                <select name="currency" id="select-metal" class="border text-lg rounded-2xl px-3 py-1 mt-1">
+                    <option value="gold">Or</option>
+                    <option value="silver">Argent</option>
+                </select>
+                <div class="text-xl [&>button]:border-0 [&>button]:bg-gray-300 [&>button]:rounded-2xl [&>button]:py-1 [&>button]:px-4">
+                    <button>7 jours</button>
+                    <button>30 jours</button>
+                </div>
+            </div>
+        </section>
+        <section class="border-t p-2">
+            <h2 class="text-2xl ">Estimateur de bijou</h2>
+            <div class="my-2 flex flex-col gap-2 md:flex-row">
+                <label for="poids" class="text-muted text-lg">Poids (grammes): </label>
+                <input type="number" inputmode="numeric" id="poids" class="border w-2/3 py-1 px-4 rounded-lg border-gray-400">
+                
+                <label for="select-metals" class="text-muted text-lg">Metals: </label>
+                <select name="metal" id="select-metals" class="border text-lg rounded-lg border-gray-400 px-3 py-1 mt-1 w-2/3">
+                    <option value="gold">Or</option>
+                    <option value="silver">Argent</option>
+                </select>
+
+                <p class="text-lg text-text">Valeur estimée</p>
+                <p id="valeur-estimee" class="text-xl font-bold">---</p>
+            </div>
+        </section>
+
+        <template id="metals-template">
+           <article class="bg-gray-300 border border-border rounded-xl p-4">
+                <h3 id="metal-name" class="text-2xl"></h3>
+                <p class="text-3xl">
+                    <span id="metal-price"></span>
+                    <span id="metal-currency"></span>
+                    / 
+                    <span id="metal-unit" ></span></p>
+                    
+                <p class="text-xl"></p>
+                <p id="metal-change" class="text-lg"></p>
+                <p id="metal-change-rate" class="text-lg"></p>
+                
+           </article>
+        </template>
+    </main>
+    <footer class="border-t flex justify-between px-2 py-4">
+        <p>Mizan . Cours des métaux</p>
+        <p>État : Opérationnel</p>
+    </footer>
+</body>
+</html>
