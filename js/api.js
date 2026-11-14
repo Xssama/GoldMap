@@ -49,12 +49,11 @@ async function GetSilverData(currency) {
     return {name: "Silver", price: silverPrice.toFixed(2), currency: data_json.xau.currency, unit: "Gramme", change: change.toFixed(2), changerate: changeRate.toFixed(2)}
 }
 
-async function GetMetalHistory(symbol, range, interval) {
+async function GetMetalHistory(symbol, range = '') {
     const [SpotRes, HistoryRes] = await Promise.all([fetch(`${API_URL}/spot?currency=MAD&unit=gram`),
-         fetch(`${API_URL}/chart?symbol=${symbol}&range=${range}&interval=${interval}`)])
+         fetch(`${API_URL}/chart?symbol=${symbol}&range=1mo&interval=1d`)])
     if (!SpotRes.ok || ! HistoryRes.ok) {
         throw new Error('HTTP error! failed to retreive the data.')
-        return
     }
 
     const goldHistory = await HistoryRes.json()
@@ -68,6 +67,6 @@ async function GetMetalHistory(symbol, range, interval) {
         data.push({dayDate: new Date(DayData.t * 1000).toISOString().slice(0, 10), ClosePrice: (DayData.c * fxrate) / 31.1034768}) 
     })
     
-    return data    
+    return (range == 7 ?  data.slice(-7): data)    
 }
 export {GetGoldData, GetSilverData, GetMetalHistory}
