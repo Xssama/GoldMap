@@ -31,7 +31,7 @@
             </div>
             <div class="flex flex-col items-center gap-2">
                 <time id="current-date" datetime="" class="block text-xl text-muted">Mardi 10 Nevombre 2026</time>
-                <button id="refresh" class="text-text text-xl text-center border-2 rounded-2xl px-2 w-4/5 hover:bg-gray-500 focus:shadow-2xl"><i class="fa-solid fa-arrows-rotate"></i> Actualiser</button>
+                <button id="refresh-cards" class="text-text text-xl text-center border-2 rounded-2xl px-2 w-4/5 hover:bg-gray-500 focus:shadow-2xl"><i class="fa-solid fa-arrows-rotate"></i> Actualiser</button>
             </div>
         </section>
         <hr>
@@ -39,13 +39,13 @@
             <div class="flex justify-between px-2">
                 <p class="text-xl text-bold">Prix Actuels</p>
                 <select name="currency" id="select-currency" class="border text-lg rounded-2xl px-3 py-1">
-                    <option value="MAD">MAD</option>
-                    <option value="USD">USD</option>
+                    <option value="mad">MAD</option>
+                    <option value="usd">USD</option>
                     <option value="EUR">EUR</option>
                 </select>
             </div>
-            <div class="text-center">
-                <p id="cards-status" class="text-2xl"></p>
+            <div>
+                <p id="cards-status"></p>
             </div>
             <div id="metals-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
 
@@ -59,10 +59,21 @@
                     <option value="silver">Argent</option>
                 </select>
                 <div class="text-xl [&>button]:border-0 [&>button]:bg-gray-300 [&>button]:rounded-2xl [&>button]:py-1 [&>button]:px-4">
-                    <button>7 jours</button>
-                    <button>30 jours</button>
+                    <button id="history-week">7 jours</button>
+                    <button id="history-month">30 jours</button>
                 </div>
+                
             </div>
+            <div>
+                <p id="history-status"></p>
+            </div>
+            <div class="chart-container">
+                    <svg id="history-chart"
+                         viewBox="0 0 800 300"
+                         role="img"
+                         aria-label="Historique des prix des métaux">
+                    </svg>
+                </div>
         </section>
         <section class="border-t p-2">
             <h2 class="text-2xl ">Estimateur de bijou</h2>
@@ -75,7 +86,8 @@
                     <option value="gold">Or</option>
                     <option value="silver">Argent</option>
                 </select>
-
+            </div>
+            <div>
                 <p class="text-lg text-text">Valeur estimée</p>
                 <p id="valeur-estimee" class="text-xl font-bold">---</p>
             </div>
