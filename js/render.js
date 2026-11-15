@@ -29,9 +29,7 @@ async function loadMetalCrads(currency)
 
     try
     {
-        const GoldData = await GetGoldData(currency)
-        
-        const SilverData = await GetSilverData(currency)
+        const [GoldData, SilverData] = await Promise.all([GetGoldData(currency), GetSilverData(currency)]) 
         
         cards_status_P.textContent = ""
         cards_status_P.className = ""
@@ -41,7 +39,7 @@ async function loadMetalCrads(currency)
 
     catch (error)
     {
-        cards_status_P.textContent = error
+        cards_status_P.textContent = error.message
         cards_status_P.className = "error"
     }
 }
