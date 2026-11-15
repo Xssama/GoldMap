@@ -5,5 +5,5 @@ export function CalculateJewelryPrice(weigth, pricePerGram)
     if (Number.isNaN(weigth_Num) || weigth< 0) {
         return
     }
-    return weigth_Num * pricePerGram
+    return (weigth_Num * pricePerGram).toFixed(2)
 }

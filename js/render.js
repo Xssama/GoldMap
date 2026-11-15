@@ -1,11 +1,18 @@
 import { GetGoldData, GetSilverData, GetMetalHistory } from "./api.js";
+import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "./storage.js";
 
-const chart_container = document.getElementById('chart-container')
+
 const template = document.getElementById('metals-template')
 const cards_containers = document.getElementById('metals-container')
 
 const cards_status_P = document.getElementById('cards-status')
-
+const history_status_p = document.getElementById('history-status')
+async function renderPage() {
+    const mizan_currency = LoadData()
+    document.getElementById('select-currency').value = mizan_currency
+    await loadMetalCrads(mizan_currency)
+    LoadHistory(await GetMetalHistory('xau', '1mo'))
+}
 function loadCard(Card_Obj)
 {
     const card = template.content.cloneNode(true)
@@ -33,6 +40,10 @@ async function loadMetalCrads(currency)
         
         cards_status_P.textContent = ""
         cards_status_P.className = ""
+
+        UpdateGoldPrice(GoldData.price)
+        UpdateSilverPrice(SilverData.price)
+        UpdateSelectedCurrency(currency)
         loadCard(GoldData)
         loadCard(SilverData)
     }
@@ -43,8 +54,6 @@ async function loadMetalCrads(currency)
         cards_status_P.className = "error"
     }
 }
-
-
 
 
 
@@ -134,18 +143,27 @@ function renderLineChart(coordinates)
 
 }
 
-async function LoadHistory(points) {
-    const prices = []
-    points.forEach(function(point) {
-        prices.push(point.ClosePrice)
-    })
-
-    const PointsCoordinates = CalculateChartCoordinates(prices)
+function LoadHistory(points) {
+    history_status_p.textContent = "Loading..."
+    history_status_p.className = "loading"
+    try {
+        const prices = []
+        points.forEach(function(point) {
+            prices.push(point.ClosePrice)
+        })
+        
+        const PointsCoordinates = CalculateChartCoordinates(prices)
+        
+        renderLineChart(PointsCoordinates.pointsCorrdinates)
+        history_status_p.textContent = ""
+        history_status_p.className = "loading"
     
-    renderLineChart(PointsCoordinates.pointsCorrdinates)
-    
+    } catch (error) {
+        history_status_p.textContent = "Une erreur est survenue de notre côté."
+        history_status_p.className = "error"
+    }
 }
 
 
 
-export {loadCard, loadMetalCrads, LoadHistory , renderLineChart  }
+export {loadMetalCrads, LoadHistory , renderPage }
