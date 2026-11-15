@@ -1,13 +1,17 @@
 import { GetGoldData, GetSilverData, GetMetalHistory } from "./api.js";
 import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "./storage.js";
 
-
+const LastUpdate_P = document.getElementById('last-update-time')
 const template = document.getElementById('metals-template')
 const cards_containers = document.getElementById('metals-container')
 
 const cards_status_P = document.getElementById('cards-status')
+const refresh_cards = document.getElementById('refresh-cards')
+const refresh_textcontent = document.getElementById('refresh-textcontent')
 const history_status_p = document.getElementById('history-status')
 async function renderPage() {
+    const currentDate = new Date()
+    renderLastUpdatelabel(currentDate)
     const mizan_currency = LoadData()
     document.getElementById('select-currency').value = mizan_currency
     await loadMetalCrads(mizan_currency)
@@ -33,11 +37,13 @@ async function loadMetalCrads(currency)
     cards_containers.replaceChildren()
     cards_status_P.textContent = "Loading..."
     cards_status_P.className = "loading"
-
+    refresh_cards.disabled = true
     try
     {
         const [GoldData, SilverData] = await Promise.all([GetGoldData(currency), GetSilverData(currency)]) 
         
+        const currentDate = new Date()
+        renderLastUpdatelabel(currentDate)
         cards_status_P.textContent = ""
         cards_status_P.className = ""
 
@@ -46,19 +52,30 @@ async function loadMetalCrads(currency)
         UpdateSelectedCurrency(currency)
         loadCard(GoldData)
         loadCard(SilverData)
+        
+        refresh_textcontent.textContent = "Actualiser"
+
     }
 
     catch (error)
     {
         cards_status_P.textContent = error.message
         cards_status_P.className = "error"
+        refresh_textcontent.textContent = "Reessayer"
     }
+    refresh_cards.disabled = false
 }
 
 
 
 
-
+function renderLastUpdatelabel(date)
+{
+    if (Number.isNaN(date.getTime())) {
+        return;
+    }
+    LastUpdate_P.textContent = date.toLocaleString()
+}
 
 
 

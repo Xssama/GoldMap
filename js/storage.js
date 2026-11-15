@@ -24,7 +24,6 @@ export function UpdateSelectedCurrency(selected_currency)
             error: 'provided currency isn\'t valid!'
         }
     }
-    console.log(selected_currency);
     
     state.mizan_currency = selected_currency
     return saveData()
