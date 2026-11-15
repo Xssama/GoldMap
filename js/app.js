@@ -1,20 +1,12 @@
-import { GetGoldData, GetMetalHistory, GetSilverData } from "./api.js";
-import { returnMetalPrice, UpdateSelectedCurrency } from "./storage.js";
+
+import { returnMetalPrice } from "./storage.js";
 import { loadMetalCrads, LoadHistory, renderPage } from "./render.js";
 import { CalculateJewelryPrice } from "./calculator.js";
 import { state } from "./state.js";
-console.log(new Date().toLocaleString());
 
-//renderPage()
-//renderLineChart([{x: 1, y: 2}, {x: 3, y: 4}, {x: 5, y: 6}, {x: 7, y: 8}])
-//console.log(await GetGoldData('MAD'));
-// console.log(await GetSilverPrice_MAD());
-//console.log(await GetMetalHistory("xau", "5d", "1d"));
+// renderPage()
 
-//loadCard(await GetSilverData('MAD'))
-
-// console.log(GetMetalHistory('xau',7));
-// console.log(CalculateChartCoordinates(await GetMetalHistory('xau', 7)));
+//Cards rendring functions
 const refresh_cards = document.getElementById('refresh-cards')
 refresh_cards.addEventListener('click', async function()
 {
@@ -25,16 +17,7 @@ const select_currency = document.getElementById('select-currency')
 select_currency.addEventListener('change', async function()
 {
     await loadMetalCrads(select_currency.value)
-    UpdateSelectedCurrency(select_currency.value)
 })
-// console.log(await GetPreviousDayData("xau", "MAD", 'gram'));
-
-// console.log(await GetSilverData('MAD'));
-
-
-
-// LoadHistory(await GetMetalHistory('xau'))
-
 
 //estimated calculation of metals functios
 const weigth_input = document.getElementById('weigth-input')
