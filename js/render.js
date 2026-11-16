@@ -15,7 +15,7 @@ async function renderPage() {
     const mizan_currency = LoadData()
     document.getElementById('select-currency').value = mizan_currency
     await loadMetalCrads(mizan_currency)
-    LoadHistory(await GetMetalHistory('xau', '1mo'))
+    LoadHistory()
 }
 function loadCard(Card_Obj)
 {
@@ -160,10 +160,11 @@ function renderLineChart(coordinates)
 
 }
 
-function LoadHistory(points) {
+async function LoadHistory(symbol='xau', range='') {
     history_status_p.textContent = "Loading..."
     history_status_p.className = "loading"
     try {
+        const points = await GetMetalHistory(symbol, range)
         const prices = []
         points.forEach(function(point) {
             prices.push(point.ClosePrice)

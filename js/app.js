@@ -4,7 +4,7 @@ import { loadMetalCrads, LoadHistory, renderPage } from "./render.js";
 import { CalculateJewelryPrice } from "./calculator.js";
 import { state } from "./state.js";
 
-// renderPage()
+renderPage()
 
 //Cards rendring functions
 const refresh_cards = document.getElementById('refresh-cards')
@@ -55,3 +55,17 @@ function validateWeigth()
 }
 
 weigth_input.addEventListener('focusout', validateWeigth)
+
+//history For selected date
+
+const history_week_btn = document.getElementById('history-week')
+const history_month_btn = document.getElementById('history-month')
+const history_select_metal = document.getElementById('history-select-metal')
+
+history_week_btn.addEventListener('click', async function () {
+    LoadHistory(history_select_metal.value, 7)
+})
+
+history_month_btn.addEventListener('click', async function () {
+    LoadHistory(history_select_metal.value)
+})
