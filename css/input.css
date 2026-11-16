@@ -26,3 +26,11 @@
     display: block;
     margin: 20 20 50 60;
 }
+
+.gold-circle {
+    color: #B8860B;
+}
+
+.silver-circle {
+    color: #AFAFAF;
+}
