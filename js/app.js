@@ -1,19 +1,16 @@
-import { GetGoldData, GetMetalHistory, GetSilverData } from "./api.js";
-import { loadCard, loadMetalCrads, LoadHistory, renderLineChart } from "./render.js";
+
+import { returnMetalPrice } from "./storage.js";
+import { loadMetalCrads, LoadHistory, renderPage } from "./render.js";
 import { CalculateJewelryPrice } from "./calculator.js";
-//renderLineChart([{x: 1, y: 2}, {x: 3, y: 4}, {x: 5, y: 6}, {x: 7, y: 8}])
-//console.log(await GetGoldData('MAD'));
-// console.log(await GetSilverPrice_MAD());
-//console.log(await GetMetalHistory("xau", "5d", "1d"));
+import { state } from "./state.js";
 
-//loadCard(await GetSilverData('MAD'))
+renderPage()
 
-// console.log(GetMetalHistory('xau',7));
-// console.log(CalculateChartCoordinates(await GetMetalHistory('xau', 7)));
+//Cards rendring functions
 const refresh_cards = document.getElementById('refresh-cards')
 refresh_cards.addEventListener('click', async function()
 {
-    await loadMetalCrads(select_currency.value)
+    await loadMetalCrads(state.mizan_currency)
 })
 
 const select_currency = document.getElementById('select-currency')
@@ -21,25 +18,23 @@ select_currency.addEventListener('change', async function()
 {
     await loadMetalCrads(select_currency.value)
 })
-// console.log(await GetPreviousDayData("xau", "MAD", 'gram'));
 
-// console.log(await GetSilverData('MAD'));
-
-
-
-// LoadHistory(await GetMetalHistory('xau'))
-
+//estimated calculation of metals functios
 const weigth_input = document.getElementById('weigth-input')
 const weigth_input_error = document.getElementById('weigth-input-error')
 
 const calculate_estimated_price = document.getElementById('calculate-estimated-price')
 const valeur_estimee = document.getElementById('valeur-estimee')
+const valeur_estimee_currency = document.getElementById('valeur-estimee-currency')
+const calculation_select_metal = document.getElementById('calculation-select-metal')
 calculate_estimated_price.addEventListener('click', async function(){
     if (!validateWeigth()) {
         valeur_estimee.textContent = '---'
         return
     }
-    valeur_estimee.textContent = CalculateJewelryPrice(weigth_input.value, (await GetGoldData('MAD')).price)
+    const selected_metal = calculation_select_metal.value
+    valeur_estimee.textContent = CalculateJewelryPrice(weigth_input.value, returnMetalPrice(selected_metal))
+    valeur_estimee_currency.textContent = state.mizan_currency
 })
 function validateWeigth()
 {
@@ -60,3 +55,17 @@ function validateWeigth()
 }
 
 weigth_input.addEventListener('focusout', validateWeigth)
+
+//history For selected date
+
+const history_week_btn = document.getElementById('history-week')
+const history_month_btn = document.getElementById('history-month')
+const history_select_metal = document.getElementById('history-select-metal')
+
+history_week_btn.addEventListener('click', async function () {
+    LoadHistory(history_select_metal.value, 7)
+})
+
+history_month_btn.addEventListener('click', async function () {
+    LoadHistory(history_select_metal.value)
+})

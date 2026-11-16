@@ -8,9 +8,7 @@ export function LoadData(Key = storage_key)
         data = 'MAD'
     }
     state.mizan_currency = data
-    console.log(state.mizan_currency);
-    
-     
+    return data    
 }
 
 export function SetData(data_obj = state, key = storage_key)
@@ -26,6 +24,7 @@ export function UpdateSelectedCurrency(selected_currency)
             error: 'provided currency isn\'t valid!'
         }
     }
+    
     state.mizan_currency = selected_currency
     return saveData()
 }
@@ -56,6 +55,15 @@ export function UpdateSilverPrice(currentPrice)
         success: true,
         error: null,
     }
+}
+export function returnMetalPrice(metal)
+{
+    if (!['xau', 'silver'].includes(metal)) {
+        console.log(metal + ', invalide metal!');
+        
+        return null
+    }
+    return (metal == 'xau' ? state.current_prices.Gold: state.current_prices.Silver)
 }
 export function saveData(data=state)
 {

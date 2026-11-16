@@ -1,11 +1,22 @@
 import { GetGoldData, GetSilverData, GetMetalHistory } from "./api.js";
+import {LoadData, UpdateGoldPrice, UpdateSelectedCurrency, UpdateSilverPrice } from "./storage.js";
 
-const chart_container = document.getElementById('chart-container')
+const LastUpdate_P = document.getElementById('last-update-time')
 const template = document.getElementById('metals-template')
 const cards_containers = document.getElementById('metals-container')
 
 const cards_status_P = document.getElementById('cards-status')
-
+const refresh_cards = document.getElementById('refresh-cards')
+const refresh_textcontent = document.getElementById('refresh-textcontent')
+const history_status_p = document.getElementById('history-status')
+async function renderPage() {
+    const currentDate = new Date()
+    renderLastUpdatelabel(currentDate)
+    const mizan_currency = LoadData()
+    document.getElementById('select-currency').value = mizan_currency
+    await loadMetalCrads(mizan_currency)
+    LoadHistory()
+}
 function loadCard(Card_Obj)
 {
     const card = template.content.cloneNode(true)
@@ -26,30 +37,45 @@ async function loadMetalCrads(currency)
     cards_containers.replaceChildren()
     cards_status_P.textContent = "Loading..."
     cards_status_P.className = "loading"
-
+    refresh_cards.disabled = true
     try
     {
         const [GoldData, SilverData] = await Promise.all([GetGoldData(currency), GetSilverData(currency)]) 
         
+        const currentDate = new Date()
+        renderLastUpdatelabel(currentDate)
         cards_status_P.textContent = ""
         cards_status_P.className = ""
+
+        UpdateGoldPrice(GoldData.price)
+        UpdateSilverPrice(SilverData.price)
+        UpdateSelectedCurrency(currency)
         loadCard(GoldData)
         loadCard(SilverData)
+        
+        refresh_textcontent.textContent = "Actualiser"
+
     }
 
     catch (error)
     {
         cards_status_P.textContent = error.message
         cards_status_P.className = "error"
+        refresh_textcontent.textContent = "Reessayer"
     }
+    refresh_cards.disabled = false
 }
 
 
 
 
-
-
-
+function renderLastUpdatelabel(date)
+{
+    if (Number.isNaN(date.getTime())) {
+        return;
+    }
+    LastUpdate_P.textContent = date.toLocaleString()
+}
 
 
 
@@ -134,18 +160,28 @@ function renderLineChart(coordinates)
 
 }
 
-async function LoadHistory(points) {
-    const prices = []
-    points.forEach(function(point) {
-        prices.push(point.ClosePrice)
-    })
-
-    const PointsCoordinates = CalculateChartCoordinates(prices)
+async function LoadHistory(symbol='xau', range='') {
+    history_status_p.textContent = "Loading..."
+    history_status_p.className = "loading"
+    try {
+        const points = await GetMetalHistory(symbol, range)
+        const prices = []
+        points.forEach(function(point) {
+            prices.push(point.ClosePrice)
+        })
+        
+        const PointsCoordinates = CalculateChartCoordinates(prices)
+        
+        renderLineChart(PointsCoordinates.pointsCorrdinates)
+        history_status_p.textContent = ""
+        history_status_p.className = "loading"
     
-    renderLineChart(PointsCoordinates.pointsCorrdinates)
-    
+    } catch (error) {
+        history_status_p.textContent = "Une erreur est survenue de notre côté."
+        history_status_p.className = "error"
+    }
 }
 
 
 
-export {loadCard, loadMetalCrads, LoadHistory , renderLineChart  }
+export {loadMetalCrads, LoadHistory , renderPage }
